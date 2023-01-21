@@ -1,0 +1,34 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/opt/ros/foxy/include/**",
+        "/home/thiago/ros2_ws/install/ydlidar_test/include/**",
+        "/home/thiago/ros2_ws/install/turtlesim/include/**",
+        "/home/thiago/ros2_ws/install/tracer_msgs/include/**",
+        "/home/thiago/ros2_ws/install/omo_r1mini_interfaces/include/**",
+        "/home/thiago/ros2_ws/install/msg_srv_test/include/**",
+        "/home/thiago/ros2_ws/install/interface_example/include/**",
+        "/home/thiago/ros2_ws/src/interface_example/include/**",
+        "/home/thiago/ros2_ws/src/msg_srv_test/include/**",
+        "/home/thiago/ros2_ws/src/not_class_node/include/**",
+        "/home/thiago/ros2_ws/src/ros_tutorials/turtlesim/include/**",
+        "/home/thiago/ros2_ws/src/test_srv/include/**",
+        "/home/thiago/ros2_ws/src/tracer_ros2/tracer_base/include/**",
+        "/home/thiago/ros2_ws/src/ugv_sdk/include/**",
+        "/home/thiago/ros2_ws/src/ydlidar_test/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
