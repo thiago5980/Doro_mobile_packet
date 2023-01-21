@@ -10,24 +10,23 @@ from launch.substitutions import ThisLaunchFileDir
 from launch_ros.actions import Node
 
 def generate_launch_description():
-  # doro_mobile_state_parameter = LaunchConfiguration(
-  #   'doro_mobile_state_parameter',
-  #   default=os.path.join(
-  #     get_package_share_directory('doro_mobile'),
-  #     'param/doro_mobile_state.yaml'
-  #   )
-  # )
+  doro_mobile_state_parameter = LaunchConfiguration(
+    'doro_mobile_state_parameter',
+    default=os.path.join(
+      get_package_share_directory('doro_mobile'),
+      'param',
+      'doro_mobile_state.yaml'))
   return LaunchDescription([
-    # DeclareLaunchArgument(
-    #   'doro_mobile_state_parameter',
-    #   default_value=doro_mobile_state_parameter
-    # ),
+    DeclareLaunchArgument(
+      'doro_mobile_state_parameter',
+      default_value=doro_mobile_state_parameter
+    ),
     Node(
       package='doro_mobile',
       executable='doro_mobile_robot_node',
       name='doro_mobile_robot_node',
       output='screen',
       emulate_tty=True,
-      # parameters=[doro_mobile_state_parameter],
+      parameters=[doro_mobile_state_parameter],
     )
   ])

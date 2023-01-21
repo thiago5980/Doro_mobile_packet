@@ -12,10 +12,10 @@ class PacketHandler:
     self._ser.reset_input_buffer()
     self._ser.reset_output_buffer()
     
-    self.Wheel_Pos = [0.0, 0.0] # r, l
-    self.Wheel_RPM = [0, 0] # r, l
-    self.is_Lift = [False, False] # lift1, lift0
-    self.Lift_err = [False, False] # lift1_err, lift0_err
+    self.Wheel_Pos = [0.0, 0.0]     # r, l
+    self.Wheel_RPM = [0, 0]         # r, l
+    self.is_Lift = [False, False]   # lift1, lift0
+    self.Lift_err = [False, False]  # lift1_err, lift0_err
     self.Wheel_err = [False, False] # Wheel_r_err, Wheel_l_err
 
   def get_port_state(self):
@@ -55,17 +55,14 @@ class PacketHandler:
       if len(whole_packet) == 16:
         if bytes([whole_packet[0]]) == b'\xff' and bytes([whole_packet[1]]) == b'\xff':
           if self.checksum(whole_packet[2], whole_packet[3:15]) == whole_packet[15].to_bytes(1,byteorder='big'):
-            self.Wheel_Pos[0] = (int.from_bytes(whole_packet[2:6], byteorder='big',signed=True))/4096 # wheel_l
-            self.Wheel_Pos[1] = (int.from_bytes(whole_packet[6:10], byteorder='big',signed=True))/4096 # wheel_r
+            self.Wheel_Pos[0] = (int.from_bytes(whole_packet[2:6], byteorder='little',signed=True))/4096 # wheel_l
+            self.Wheel_Pos[1] = (int.from_bytes(whole_packet[6:10], byteorder='little',signed=True))/4096 # wheel_r
             self.Wheel_RPM[0] = int.from_bytes(whole_packet[10:12], byteorder='little',signed=True) # l rpm
             self.Wheel_RPM[1] = int.from_bytes(whole_packet[12:14], byteorder='little',signed=True) # r rpm
-            print("--------------------")
-            for i, _temp in enumerate(whole_packet):
-              print(_temp)
-            print("--------------------")  
-            # print(whole_packet)
-            # print(whole_packet[2:6])
-            # print(whole_packet[6:10])
+            # print("--------------------")
+            # for i, _temp in enumerate(whole_packet):
+            #   print(_temp)
+            # print("--------------------")  
             print((self.Wheel_RPM))
             if len(bin(whole_packet[14])) > 6:
               if int(bin(whole_packet[14])[5]) == 1: # lift 1
@@ -100,10 +97,10 @@ class PacketHandler:
                 self.Wheel_err[1] = True
               else: self.Wheel_err[1] = False    
             else: self.Wheel_err[1] = False    
-          else:
-            print("error packet1")
-        else:
-          print("error packet2")
+        #   else:
+        #     print("error packet1")
+        # else:
+        #   print("error packet2")
 
   def write_motor(self, r_rpm, l_rpm, lift):
     header_1 = b'\xff'
@@ -113,10 +110,29 @@ class PacketHandler:
     if lift:
       byte_lift = b'\x03' # up
     else:
-      byte_lift = b'\x00' # down
+      byte_lift = b'\x01' # down
     _check = byte_r_rpm + byte_l_rpm + byte_lift
     _checksum = self.checksum(_check[0], _check[1:5])
     send_data = header_1 + header_2 + _check + _checksum
     self._ser.write(send_data)
-    
-    
+
+
+
+
+############################################
+# packet(com -> Robot) 8byte
+# Header 1       0xff
+# Header 2       0xff
+# wheel_L_speed  2byte(little edian)
+# wheel_R_speed  2byte(little endian)
+# reserved data  1byte(bit 1 - up(1), down(1)   bit 2 - lift comand)
+# checksum       1byte(byte 2 ~ byte 6 xor + 1)
+############################################
+# Header 1       0xff
+# Header 2       0xff
+# wheel_L_Pos    4byte(little endian - long(4096/turn))
+# wheel_R_Pos    4byte(little endian - long(4096/turn))
+# Wheel_L_RPM    2byte(little endian)
+# wheel_R_RPM    2byte(little endian)
+# reserved data  1byte(bit 5,4 - lift 1,0 | bit 3,2 - lift err 1,0 | bit 1,0 - wheel err R,L)
+############################################
