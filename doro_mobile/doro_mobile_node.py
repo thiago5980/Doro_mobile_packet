@@ -16,7 +16,7 @@ class DOROMobileNode(Node):
     self.declare_parameter('port_name', '/dev/ttyUSB0')
     self.declare_parameter('port_baudrate', 115200)
     self.declare_parameter('wheel_seperation', 0.185)
-    self.declare_parameter('wheel_radius', 0.082)
+    self.declare_parameter('wheel_radius', 0.041)
     _port_name = self.get_parameter('port_name').value
     _port_baudrate = self.get_parameter('port_baudrate').value
     self.wheel_separation = self.get_parameter('wheel_seperation').value
@@ -50,7 +50,7 @@ class DOROMobileNode(Node):
     self.is_lift_wheel = [False, False] # lift1, lift0
 
     self.max_linear_x = 0.3865  # max liear velocity 0.3865(only linear)
-    self.max_angular_z = 4.178 # max angular velocity 4.178(only angular)
+    self.max_angular_z = 2.089 # max angular velocity 4.178(only angular)
     self.is_lift = False
 
   def cbLiftMsg(self, msg):
