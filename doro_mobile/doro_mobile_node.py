@@ -30,7 +30,7 @@ class DOROMobileNode(Node):
     print('WHEEL SEPARATION:\t%s'%(self.wheel_separation))
     print('WHEEL RADIUS:\t%s'%(self.wheel_radius))
     print('MAX RPM:\t\t%s'%("45 RPM")) # max 45rpm (max 3072 step/s)  (x rpm)*(4096/60)= x(1024/15)[step/s]
-    print('MAX LINEAR X : 0.3865 m/s, ANGULAR Z : 4.178 rad/s')
+    print('MAX LINEAR X : 0.1933 m/s, ANGULAR Z : 2.09 rad/s')
     self.ph = PacketHandler(_port_name, _port_baudrate)
 
     self.subCmdVelMsg = self.create_subscription(Twist, 'cmd_vel', self.cbCmdVelMsg, 10)
@@ -49,8 +49,8 @@ class DOROMobileNode(Node):
     self.wheel_err = [False, False]
     self.is_lift_wheel = [False, False] # lift1, lift0
 
-    self.max_linear_x = 0.3865  # max liear velocity 0.3865(only linear)
-    self.max_angular_z = 2.089 # max angular velocity 4.178(only angular)
+    self.max_linear_x = 0.1933  # max liear velocity 0.1933(only linear)
+    self.max_angular_z = 2.09 # max angular velocity 2.09(only angular)
     self.is_lift = False
 
   def cbLiftMsg(self, msg):
